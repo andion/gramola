@@ -32,18 +32,21 @@ def get_length(afinfo)
 	afinfo.lines[2].split[0].to_f
 end
 
-# Returns total lenght of the +files+ in minutes
+# Returns total lenght of the +files+ in seconds
 def total_length(files)
-	seconds = files.inject(0){|acc,f| acc = acc + get_length(`afinfo -b "#{f}"`); acc}
-	print_length(seconds)
+	files.inject(0){|acc,f| acc = acc + get_length(`afinfo -b "#{f}"`); acc}
 end
 
 def print_length(seconds)
-	(minutes = (seconds / 60.0).to_i) < 60 ? "#{minutes} minutes" : "#{minutes / 60} hours"
+	m, s = seconds.divmod(60)
+	h, m = m.divmod(60)
+	d, h = h.divmod(24)
+	[d > 0 ? ("%d day" % d) : nil, h > 0 ? ("%d hours" % h) : nil,
+	  m ? ("%d minutes" % m) : ("%d seconds... Orly?")].compact * ' '	
 end
 
 def print_info(files)
-	puts "Playing #{files.size} files for about #{total_length(files)}"
+	puts "Playing #{files.size} files for about #{print_length(total_length(files))}"
 end
 
 # Main
