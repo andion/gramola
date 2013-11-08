@@ -14,6 +14,7 @@
 #
 
 module Gramola
+  require 'optparse'
 
   MUSIC_FOLDER='Music'
   MUSIC_EXTENSIONS='*{.mp3}'
@@ -21,10 +22,22 @@ module Gramola
   class Player
 
     def initialize(argv)
-      @files  = Dir[File.join(Dir.home,MUSIC_FOLDER,'**',MUSIC_EXTENSIONS)]
-      @songs  = filter_by_groups(@files,argv)
+      parse_options(argv)
+      @files  = Dir[File.join(Dir.home,MUSIC_FOLDER,'**',MUSIC_EXTENSIONS)]      
+      @songs  = filter_by_groups(@files,@groups)
       @length = get_total_length(@songs)
-      @shuffle = !argv.include?('-l')
+    end
+
+    def parse_options(argv)
+      parser = OptionParser.new do |opts|
+        opts.banner = "Usage: gramola.rb [-l] [file ...]. Shuffles all *.mp3 under ~/Music by default."
+        opts.on('-l', '--list', "Play the files in order") {@shuffle = false}
+        opts.on_tail("-h", "--help", "Show this message") do
+          puts opts
+          exit
+        end        
+        @groups = opts.parse!
+      end      
     end
 
     def info
