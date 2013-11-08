@@ -22,6 +22,7 @@ module Gramola
   class Player
 
     def initialize(argv)
+      @shuffle = true #default
       parse_options(argv)
       @files  = Dir[File.join(Dir.home,MUSIC_FOLDER,'**',MUSIC_EXTENSIONS)]      
       @songs  = filter_by_groups(@files,@groups)
