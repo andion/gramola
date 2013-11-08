@@ -9,6 +9,7 @@
 #   Pause: Ctrl-Z or 'fg' + Crl-Z if background
 #   Resume: 'fg'
 #   Play specific groups/keywords: './gramola.rb 'Group name' Keyword 'Other group'
+#   Non-shuffle option: -l
 # 
 #
 
@@ -22,20 +23,23 @@ module Gramola
     def initialize(argv)
       @files  = Dir[File.join(Dir.home,MUSIC_FOLDER,'**',MUSIC_EXTENSIONS)]
       @songs  = filter_by_groups(@files,argv)
-      @length = get_total_length(@songs) 
+      @length = get_total_length(@songs)
+      @shuffle = !argv.include?('-l')
     end
 
     def info
-      "Playing #{@songs.size} songs for about #{print_length(@length)}"
-    end  
+      "Playing #{@songs.size} songs for about #{print_length(@length)} in #{shuffle_info}"    
+    end
 
-    def play
-      @songs.shuffle.each do |s|
-        `afplay "#{s}"`
-      end
+    def play      
+      (@shuffle ? @songs.shuffle : @songs).each{|s| `afplay "#{s}"`} #Main script function
     end
 
     private
+
+    def shuffle_info
+      @shuffle ? "shuffle mode" : "list mode"      
+    end
 
     def filter_by_groups(files,groups)
       if groups.any?
