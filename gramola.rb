@@ -70,7 +70,6 @@ module Gramola
       res = `afinfo -b #{shell_formatted_filenames}` # total info
       length = 0
       res.lines{|l| length = length + l.split.first.to_f if l.split.first.to_f}
-      puts length
       length
     end      
 
