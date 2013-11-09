@@ -58,7 +58,8 @@ module Gramola
 
     def filter_by_groups(files,groups)
       if groups.any?
-        files.select{|f| f =~ Regexp.new("#{groups * '|'  }") }
+        groups = groups.map &:downcase
+        files.select{|f| f.downcase =~ Regexp.new("#{groups * '|'  }") }
       else
         files
       end
