@@ -15,6 +15,7 @@
 
 module Gramola
   require 'optparse'
+  require 'shellwords'
 
   MUSIC_FOLDER='Music'
   MUSIC_EXTENSIONS='*{.mp3}'
@@ -29,6 +30,16 @@ module Gramola
       @length = get_total_length(@songs)
     end
 
+    def info
+      "Playing #{@songs.size} songs for about #{print_length(@length)} in #{shuffle_info}"    
+    end
+
+    def play      
+      (@shuffle ? @songs.shuffle : @songs).each{|s| `afplay "#{s}"`} #Main script function
+    end
+
+    private
+
     def parse_options(argv)
       parser = OptionParser.new do |opts|
         opts.banner = "Usage: gramola.rb [-l] [file ...]. Shuffles all *.mp3 under ~/Music by default."
@@ -39,17 +50,7 @@ module Gramola
         end        
         @groups = opts.parse!
       end      
-    end
-
-    def info
-      "Playing #{@songs.size} songs for about #{print_length(@length)} in #{shuffle_info}"    
-    end
-
-    def play      
-      (@shuffle ? @songs.shuffle : @songs).each{|s| `afplay "#{s}"`} #Main script function
-    end
-
-    private
+    end    
 
     def shuffle_info
       @shuffle ? "shuffle mode" : "list mode"      
@@ -63,14 +64,14 @@ module Gramola
       end
     end    
 
-    # Gets lenght in seconds from +afinfo+ command output
-    def get_song_length(afinfo)
-      afinfo.lines[2].split[0].to_f
-    end
-
-    # Returns total lenght of the +files+ in seconds
-    def get_total_length(files)
-      files.inject(0){|acc,f| acc = acc + get_song_length(`afinfo -b "#{f}"`); acc}
+    # Returns total lenght of the +files+ in seconds. 
+    def get_total_length(filenames)
+      shell_formatted_filenames = Shellwords.join filenames
+      res = `afinfo -b #{shell_formatted_filenames}` # total info
+      length = 0
+      res.lines{|l| length = length + l.split.first.to_f if l.split.first.to_f}
+      puts length
+      length
     end      
 
     def print_length(seconds)
