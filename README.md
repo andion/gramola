@@ -9,14 +9,17 @@ Gramola is just like that. Just run gramola and all your mp3's under your
 ~/Music folder will be played in shuffle mode. You can also add search keywords 
 or play them on list mode.
 
-Simple and battery friendly.
+Simple and **battery friendly**.
+
+![Activity monitor](/afplay_itunes_vox_activity_monitor.png)
 
 ## Requirements
 
   OSX 10.5+
 
-#   Run:'ruby gramola.rb' or do once 'chmod +x gramola.rb' and then exec with './gramola.rb'
-
+## Run
+  
+    $ gramola [-l] [keyword ...]
 
 ## Installation
 
