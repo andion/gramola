@@ -1,24 +1,34 @@
 # Gramola
 
-TODO: Write a gem description
+Gramola is a command-line script to call afplay on your Music collection
+under ~/Music from your mac's Terminal.
+
+I love my ipod shuffle. No screen, no hassle, just play some music. 
+
+Gramola is just like that. Just run gramola and all your mp3's under your 
+~/Music folder will be played in shuffle mode. You can also add search keywords 
+or play them on list mode.
+
+Simple and battery friendly.
+
+## Requirements
+
+  OSX 10.5+
+
+#   Run:'ruby gramola.rb' or do once 'chmod +x gramola.rb' and then exec with './gramola.rb'
+
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'gramola'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install gramola
 
 ## Usage
-
-TODO: Write usage instructions here
+  
+    $ gramola -h
+    Usage: gramola.rb [-l] [keyword ...]. Shuffles all *.mp3 under ~/Music by default.
+      -l, --list                       Play the files in order
+      -h, --help                       Show this message    
+  
 
 ## Contributing
 
