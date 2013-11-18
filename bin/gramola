@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require 'gramola'
+
+gramola = Gramola::Player.new ARGV
+puts gramola.info
+gramola.play

@@ -1,10 +1,8 @@
-#!/usr/bin/env ruby
 #
 # GRAMOLA: shuffle play all the mp3 files under your '/Music' 
 #   folder using afplay (OSX 10.5+ only)
 #
-# Many features xD: 
-#   Run:'ruby gramola.rb' or do once 'chmod +x gramola.rb' and then exec with './gramola.rb'
+# Many features xD:
 #   "Background mode": './gramola.rb &'
 #   Pause: Ctrl-Z or 'fg' + Crl-Z if background
 #   Resume: 'fg'
@@ -84,8 +82,3 @@ module Gramola
     end
   end
 end
-
-# Main
-gramola = Gramola::Player.new ARGV
-puts gramola.info
-gramola.play
